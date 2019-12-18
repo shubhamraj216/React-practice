@@ -1,0 +1,15 @@
+.DiceRoll{
+    display: flex wrap;
+    justify-content: center;
+    align-items: center;
+}
+button{
+    width: 15em;
+    height: 5em;
+    background: blue;
+    border-radius: 1rem;
+    color: antiquewhite;
+}
+button:hover{
+    background: black;
+}
