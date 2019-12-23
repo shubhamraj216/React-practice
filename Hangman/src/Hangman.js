@@ -22,6 +22,7 @@ class Hangman extends Component {
     this.state = { nWrong: 0, guessed: new Set(), answer: rand };
     this.handleGuess = this.handleGuess.bind(this);
     this.restart = this.restart.bind(this);
+    
   }
 
   /** guessedWord: show current-state of word:
@@ -31,6 +32,11 @@ class Hangman extends Component {
     return this.state.answer
       .split("")
       .map(ltr => (this.state.guessed.has(ltr) ? ltr : "_"));
+  }
+  check(){
+    let x=true;
+    if(this.state.answer.split("").map(ltr => this.state.guessed.has(ltr)?(x=x*true):(x=x*false)))
+      return x;
   }
   
   /** handleGuest: handle a guessed letter:
@@ -73,7 +79,9 @@ class Hangman extends Component {
 
   /** render: render game */
   render() {
-    let gameEnd=(this.props.maxWrong===this.state.nWrong)&&(this.state.guessed-this.state.nWrong===this.props.maxWrong);
+    let gameEndLose=(this.props.maxWrong===this.state.nWrong);
+    let gameEndWin=(this.check());
+    let gameEnd=gameEndLose||gameEndWin;
     return (
       <div className='Hangman'>
         <h1>Hangman</h1>
@@ -82,10 +90,11 @@ class Hangman extends Component {
         <p className='Hangman-word'>{this.guessedWord()}</p>
         <p>Wrong Guesses:{this.state.nWrong}</p>
         {!gameEnd && <p className="Hangman-btns" >{this.generateButtons()}</p>}
-        {gameEnd && <div>
+        {gameEndLose && <div>
           <h3>YOU LOSE!</h3>
           <h4>Correct Word:{this.state.answer}</h4>
         </div>}
+        {gameEndWin?<div><h1>You Win!!!</h1></div>:""}
       </div>
     );
   }
